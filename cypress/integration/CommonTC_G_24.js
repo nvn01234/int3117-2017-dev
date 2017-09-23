@@ -77,7 +77,7 @@ describe('Tìm kiếm không phân biệt chữ hoa, chữ thường', function(
 
             // search
             cy.get('[ng-model="keyword"]').type(testcase.expect.toUpperCase()).type('{enter}');
-            cy.get('tbody > tr:first-child').should('contain', name);
+            cy.get('tbody > tr:first-child').should('contain', testcase.expect);
         });
     });
 });

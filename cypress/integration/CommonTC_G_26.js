@@ -37,7 +37,7 @@ describe('Kiểm tra chức năng Trim space', function() {
         cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.portlet-title > div.inputs > div > div > form > input').type(email).type('{enter}');
         cy.wait(500);
         cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.portlet-body > div.max-width-100-pc.scrollable > table > tbody > tr:nth-child(1) > td:nth-child(2)').should('contain', randStr + ' ' + randStr);
-        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.portlet-body > div.max-width-100-pc.scrollable > table > tbody > tr:nth-child(2) > td:nth-child(3)').should('not.contain', space);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.portlet-body > div.max-width-100-pc.scrollable > table > tbody > tr:nth-child(1) > td:nth-child(3) > a').should('not.contain', space);
     });
 
     it('Quản lý cơ sở', function() {
