@@ -10,6 +10,80 @@ describe('Kiểm tra khi nhập dữ liệu là các thẻ html', function() {
     var randStr = uuid.v4();
     var html_randStr = html + randStr;
 
+    it('Thêm đơn thuốc', function() {
+        // login as trưởng cơ sở
+        cy.get('body > div > div.login.ng-scope > div.content > form > div:nth-child(2) > div > input').type('admin_agency_10@gmail.com');
+        cy.get('body > div > div.login.ng-scope > div.content > form > div:nth-child(3) > div > input').type('Methadone@2017');
+        cy.get('body > div > div.login.ng-scope > div.content > form > button').click();
+        cy.wait(1000);
+
+        cy.visit('http://52.187.8.102/main/patients');
+        cy.wait(500);
+
+        // add
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-title.tabbable-line > div.actions.ng-scope > a:nth-child(1)').click();
+        cy.get('body > div.modal.fade.ng-scope.ng-isolate-scope.in > div > div > form > div.modal-body > div > div:nth-child(3) > div.ui-select-container.select2.select2-container.ng-pristine.ng-untouched.ng-scope.ng-empty.ng-invalid.ng-invalid-required > a').click();
+        cy.get('body > div.ui-select-container.select2.select2-container.ng-pristine.ng-untouched.ng-scope.ng-empty.ng-invalid.ng-invalid-required.select2-container-active.select2-dropdown-open.open > div > ul > li > ul > li:nth-child(2)').click();
+        cy.get('body > div.modal.fade.ng-scope.ng-isolate-scope.in > div > div > form > div.modal-body > div > div:nth-child(5) > input').type(100);
+        cy.get('body > div.modal.fade.ng-scope.ng-isolate-scope.in > div > div > form > div.modal-body > div > div:nth-child(7) > input').type(100);
+        cy.get('body > div.modal.fade.ng-scope.ng-isolate-scope.in > div > div > form > div.modal-body > div > div:nth-child(9) > textarea').type(html);
+        cy.get('#submit').click();
+
+        // test
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > ul > li:nth-child(3)').click();
+        cy.wait(500);
+        cy.get('#print_container > div > div:nth-child(3) > div > table > tbody > tr:nth-child(1) > td:nth-child(11) > a').click();
+        cy.get('#pdf > p:nth-child(29)').should('contain', html);
+    });
+
+    it('Thêm mới bệnh nhân', function() {
+        // login as trưởng cơ sở
+        cy.get('body > div > div.login.ng-scope > div.content > form > div:nth-child(2) > div > input').type('admin_agency_10@gmail.com');
+        cy.get('body > div > div.login.ng-scope > div.content > form > div:nth-child(3) > div > input').type('Methadone@2017');
+        cy.get('body > div > div.login.ng-scope > div.content > form > button').click();
+        cy.wait(1000);
+
+        cy.visit('http://52.187.8.102/main/patients/new');
+        cy.wait(500);
+
+        // required fields
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div.row.fow-flex > div.col-xs-12.col-md-x170px > div > div:nth-child(1) > div > input').type(html_randStr);
+        cy.get('body > div.ng-scope > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div.row.fow-flex > div.col-xs-12.col-md-x170px > div > div:nth-child(2) > div > label.input-group > input').type('15/02/1996');
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div.row.fow-flex > div.col-xs-12.col-md-x170px > div > div:nth-child(3) > div > div.ui-select-container.select2.select2-container.ng-empty.ng-invalid.ng-invalid-required > a').click();
+        cy.get('.select2-result-label.ui-select-choices-row-inner').eq(0).click();
+        cy.get('body > div.ng-scope > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div.row.fow-flex > div.col-xs-12.col-md-x170px > div > div:nth-child(10) > div > label.input-group > input').type('15/02/2000');
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div.row.fow-flex > div.col-xs-12.col-md-x170px > div > div.col-xs-12.col-md-6 > div > input').type(html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div:nth-child(2) > div:nth-child(3) > div > div.ui-select-container.select2.select2-container.ng-empty.ng-invalid.ng-invalid-required > a > span.select2-chosen.ng-binding').click();
+        cy.get('.select2-result-label.ui-select-choices-row-inner').eq(0).click();
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div:nth-child(2) > div:nth-child(4) > div > input').type(html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div:nth-child(2) > div.col-xs-12.col-md-6 > div > input').type(html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div:nth-child(3) > div:nth-child(1) > div > a').click();
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div:nth-child(4) > div:nth-child(1) > div > div.ui-select-container.select2.select2-container.ng-empty.ng-invalid.ng-invalid-required > a > span.select2-chosen.ng-binding').click();
+        cy.get('.select2-result-label.ui-select-choices-row-inner').eq(0).click();
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div:nth-child(4) > div:nth-child(2) > div > input').type(html_randStr);
+        cy.get('body > div.ng-scope > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div:nth-child(4) > div:nth-child(3) > div > label.input-group > input').type('15/02/2017');
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div:nth-child(4) > div:nth-child(4) > div > input').type(html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div.general-item-list > div > div > div:nth-child(1) > div > input').type(html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div.general-item-list > div > div > div:nth-child(2) > div > div.ui-select-container.select2.select2-container.ng-pristine.ng-untouched.ng-scope.ng-empty.ng-invalid.ng-invalid-required > a').click();
+        cy.get('.select2-result-label.ui-select-choices-row-inner').eq(0).click();
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-body > div.general-item-list > div > div > div:nth-child(3) > div > a:nth-child(3) > i').click();
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > form > div > div.portlet-title.tabbable-line > div.inputs > button').click();
+        cy.wait(1000);
+
+        // test
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-4.padding-right-5.hidden-sm.hidden-xs > div > div.portlet-body > div.max-width-100-pc.scrollable > table > tbody > tr.ng-scope.active_patient > td:nth-child(3) > a').should('contain', html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > div > div > div.row.fow-flex.ng-scope > div.col-xs-12.col-md-x170px > table > tbody > tr:nth-child(1) > td:nth-child(2)').should('contain', html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > div > div > div.row.fow-flex.ng-scope > div.col-xs-12.col-md-x170px > table > tbody > tr:nth-child(3) > td:nth-child(2)').should('contain', html + ' - ' + html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > ul > li:nth-child(2)').click();
+        cy.wait(500);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > div > div > div > div:nth-child(1) > div > div > div > table > tbody > tr:nth-child(7) > td:nth-child(2)').should('contain', html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > div > div > div > div:nth-child(1) > div > div > div > table > tbody > tr:nth-child(8) > td:nth-child(2)').should('contain', html + ' - ' + html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > div > div > div > div:nth-child(2) > div.max-width-100-pc.scrollable > table > tbody > tr:nth-child(2) > td:nth-child(2)').should('contain', html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > div > div > div > div:nth-child(2) > div.max-width-100-pc.scrollable > table > tbody > tr:nth-child(4) > td:nth-child(2)').should('contain', html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > div > div > div > div:nth-child(2) > div.tabbable-line > div > div > div > table > tbody > tr.ng-scope > td:nth-child(1) > div').should('contain', html);
+        cy.get('body > div > div.page-container.ng-scope > div > div.page-content-wrapper > div > div > div > div.col-md-8.padding-left-5 > div > div > div.portlet-body > div > div > div > div > div > div > div:nth-child(2) > div.tabbable-line > div > div > div > table > tbody > tr.ng-scope > td.align-left.ng-binding').should('contain', html + ' - ' + html);
+    });
+
     it('Quản lý người dùng', function () {
         // login as admin
         cy.get('body > div > div.login.ng-scope > div.content > form > div:nth-child(2) > div > input').type('admin_10@gmail.com');
