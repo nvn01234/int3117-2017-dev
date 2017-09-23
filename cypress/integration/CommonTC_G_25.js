@@ -1,4 +1,4 @@
-it('Tìm kiếm không phân biệt chữ hoa, chữ thường', function() {
+it('Kiểm tra khi nhập dữ liệu là các thẻ html', function() {
     // login
     cy.visit('http://52.187.8.102/');
     cy.get('body > div > div.login.ng-scope > div.content > form > div:nth-child(2) > div > input').type('admin_10@gmail.com');
