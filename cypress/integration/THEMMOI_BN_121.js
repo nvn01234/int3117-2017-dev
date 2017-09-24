@@ -1,14 +1,20 @@
-it('Kiểm tra giá trị mặc định trường trường "Loại giấy tờ"', function(){
-    cy.visit('signin');
-    cy.get('[name="email"]').type('admin_agency_10@gmail.com');
-    cy.get('[name="password"]').type('Methadone@2017');
-    cy.get('[type="submit"]').click();
-    cy.wait(1000);
-    cy.visit('main/patients/new');
-    cy.get('[ng-submit="form.$valid && createPatient()"] [name="identification_type"] [ng-show="$select.isEmpty()"').should('contain','-- Vui lòng chọn --');
-    cy.get('[ng-submit="form.$valid && createPatient()"] [name="identification_type"]').click();
-    cy.get('[ng-bind-html="identification_type | translator: \'patient\' | highlight: $select.search"]').eq(0).should('contain','CMND');
-    cy.get('[ng-bind-html="identification_type | translator: \'patient\' | highlight: $select.search"]').eq(1).should('contain','Sổ hộ khẩu');
-    cy.get('[ng-bind-html="identification_type | translator: \'patient\' | highlight: $select.search"]').eq(2).should('contain','Giấy phép lái xe');
-    cy.get('[ng-bind-html="identification_type | translator: \'patient\' | highlight: $select.search"]').eq(3).should('contain','Hộ chiếu');
+describe('Kiểm tra combobox "Loại giấy tờ"', function () {
+    beforeEach(function () {
+        cy.visit(Cypress.env("routes.signin"));
+        cy.get('[name="email"]').type(Cypress.env("accounts.admin_agency.email"));
+        cy.get('[name="password"]').type(Cypress.env("accounts.admin_agency.password"));
+        cy.get('[type="submit"]').click();
+        cy.wait(Cypress.env("delays.after_signin"));
+
+        cy.visit(Cypress.env("routes.main.patients.new"));
+        cy.wait(Cypress.env("delays.after_visit"));
+    });
+
+    it('Kiểm tra giá trị mặc định trường trường "Loại giấy tờ"', function () {
+        cy.get('[ng-submit="form.$valid && createPatient()"] [name="identification_type"] [ng-show="$select.isEmpty()"').should('contain', '-- Vui lòng chọn --');
+        cy.get('[ng-submit="form.$valid && createPatient()"] [name="identification_type"]').click();
+        ['CMND', 'Sổ hộ khẩu', 'Giấy phép lái xe', 'Hộ chiếu'].forEach(function(option, i) {
+            cy.get('[ng-bind-html="identification_type | translator: \'patient\' | highlight: $select.search"]').eq(i).should('contain', option);
+        });
+    });
 });
